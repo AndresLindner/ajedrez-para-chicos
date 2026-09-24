@@ -24,5 +24,5 @@ export interface Position {
 
 export type AppMode = 'ori' | 'emily' | 'free' | 'guide';
 
-export type OriGame = 'tower' | 'bishop' | 'knight' | 'mini-pawn';
+export type OriGame = 'tower' | 'bishop' | 'queen' | 'king' | 'knight' | 'mini-pawn';
 export type EmilyGame = 'pawn-wars' | 'save-king' | 'checkmate-1';

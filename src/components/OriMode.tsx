@@ -67,6 +67,53 @@ export const OriMode: React.FC = () => {
       });
       setItemsLeft(starCoords.length);
       setTotalItems(starCoords.length);
+    } else if (game === 'queen') {
+      // Reina / Dama (Recto + Diagonal)
+      newBoard[4][4] = { piece: { type: 'q', color: 'w' } };
+      let jewelCoords: [number, number][] = [];
+      if (lvl === 1) {
+        // Orthogonal + Diagonal mix
+        jewelCoords = [[1, 4], [4, 7], [1, 1], [7, 7]];
+        setStoryText('¡La Reina combina la Torre y el Alfil! Puede moverse recto y en diagonal.');
+      } else if (lvl === 2) {
+        jewelCoords = [[4, 1], [1, 4], [1, 7], [6, 2], [6, 6]];
+        setStoryText('¡Atrapá las joyas mágicas combinando líneas rectas y diagonales!');
+      } else {
+        jewelCoords = [[0, 4], [2, 6], [2, 1], [7, 1], [7, 7], [4, 0]];
+        setStoryText('¡El gran vuelo de la Reina por todo el tablero!');
+      }
+      jewelCoords.forEach(([r, c]) => {
+        newBoard[r][c] = { item: 'jewel' };
+      });
+      setItemsLeft(jewelCoords.length);
+      setTotalItems(jewelCoords.length);
+    } else if (game === 'king') {
+      // Rey (1 paso a la vez en cualquier dirección)
+      let itemCoords: [number, number][] = [];
+      if (lvl === 1) {
+        newBoard[4][4] = { piece: { type: 'k', color: 'w' } };
+        // 3 items exactly 1 step away (straight and diagonal)
+        itemCoords = [[3, 4], [4, 5], [5, 3]];
+        setStoryText('¡El Rey camina hacia cualquier lado, pero solo de a un pasito por turno!');
+      } else if (lvl === 2) {
+        newBoard[5][5] = { piece: { type: 'k', color: 'w' } };
+        // Items 2 steps away
+        itemCoords = [[3, 5], [5, 2], [2, 2]];
+        setStoryText('¡Paso a paso! Caminá de a un casillero por vez para buscar cada manzana.');
+      } else {
+        newBoard[6][6] = { piece: { type: 'k', color: 'w' } };
+        // Path with a fence obstacle to reach the apples
+        newBoard[5][5] = { item: 'fence' };
+        newBoard[5][6] = { item: 'fence' };
+        newBoard[4][6] = { item: 'fence' };
+        itemCoords = [[6, 4], [4, 4], [2, 4], [2, 2]];
+        setStoryText('¡El Rey camina con paciencia alrededor de las vallas hacia la meta!');
+      }
+      itemCoords.forEach(([r, c]) => {
+        newBoard[r][c] = { item: 'apple' };
+      });
+      setItemsLeft(itemCoords.length);
+      setTotalItems(itemCoords.length);
     } else if (game === 'knight') {
       // Caballo Saltarín
       newBoard[7][1] = { piece: { type: 'n', color: 'w' } };
@@ -310,7 +357,7 @@ export const OriMode: React.FC = () => {
               : 'bg-white text-slate-700 hover:bg-amber-100'
           }`}
         >
-          🏰 La Torre Comegalletitas
+          🏰 La Torre
         </button>
         <button
           onClick={() => { setActiveGame('bishop'); setLevel(1); }}
@@ -320,7 +367,27 @@ export const OriMode: React.FC = () => {
               : 'bg-white text-slate-700 hover:bg-indigo-100'
           }`}
         >
-          🧙 El Alfil Patinador
+          🧙 El Alfil
+        </button>
+        <button
+          onClick={() => { setActiveGame('queen'); setLevel(1); }}
+          className={`flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-bold text-sm sm:text-base transition-all shadow-md ${
+            activeGame === 'queen'
+              ? 'bg-purple-600 text-white scale-105 ring-4 ring-purple-300'
+              : 'bg-white text-slate-700 hover:bg-purple-100'
+          }`}
+        >
+          👑 La Reina
+        </button>
+        <button
+          onClick={() => { setActiveGame('king'); setLevel(1); }}
+          className={`flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-bold text-sm sm:text-base transition-all shadow-md ${
+            activeGame === 'king'
+              ? 'bg-amber-600 text-white scale-105 ring-4 ring-amber-300'
+              : 'bg-white text-slate-700 hover:bg-amber-100'
+          }`}
+        >
+          🤴 El Rey
         </button>
         <button
           onClick={() => { setActiveGame('knight'); setLevel(1); }}
@@ -330,7 +397,7 @@ export const OriMode: React.FC = () => {
               : 'bg-white text-slate-700 hover:bg-emerald-100'
           }`}
         >
-          🐴 El Caballo Saltarín
+          🐴 El Caballo
         </button>
         <button
           onClick={() => { setActiveGame('mini-pawn'); setLevel(1); }}
@@ -340,7 +407,7 @@ export const OriMode: React.FC = () => {
               : 'bg-white text-slate-700 hover:bg-rose-100'
           }`}
         >
-          🛡️ Guerra de 3 Peones
+          🛡️ Guerra de Peones
         </button>
       </div>
 
@@ -350,6 +417,8 @@ export const OriMode: React.FC = () => {
           <div className="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center text-2xl shadow-inner">
             {activeGame === 'tower' && '🍪'}
             {activeGame === 'bishop' && '⭐'}
+            {activeGame === 'queen' && '💎'}
+            {activeGame === 'king' && '👑'}
             {activeGame === 'knight' && '🍎'}
             {activeGame === 'mini-pawn' && '⚔️'}
           </div>
