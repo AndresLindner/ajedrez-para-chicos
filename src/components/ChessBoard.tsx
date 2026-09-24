@@ -30,8 +30,8 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
   const rankLabels = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
   return (
-    <div className="relative inline-block p-3 sm:p-4 bg-amber-900/40 rounded-3xl shadow-2xl border-4 border-amber-800/60 select-none">
-      <div className="grid grid-cols-8 grid-rows-8 w-[320px] h-[320px] sm:w-[460px] sm:h-[460px] md:w-[540px] md:h-[540px] rounded-2xl overflow-hidden shadow-inner border-2 border-amber-950/40">
+    <div className="relative inline-block p-2.5 sm:p-4 bg-amber-900/40 rounded-3xl shadow-2xl border-4 border-amber-800/60 select-none touch-none">
+      <div className="grid grid-cols-8 grid-rows-8 w-[min(90vw,560px,56vh)] h-[min(90vw,560px,56vh)] sm:w-[min(86vw,600px,60vh)] sm:h-[min(86vw,600px,60vh)] rounded-2xl overflow-hidden shadow-inner border-2 border-amber-950/40">
         {rows.map((r) =>
           cols.map((c) => {
             const isLight = (r + c) % 2 === 0;
@@ -54,14 +54,14 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                 type="button"
                 onClick={() => interactive && onSquareClick(r, c)}
                 className={`relative flex items-center justify-center p-0 m-0 cursor-pointer transition-colors duration-150 ${bgClass} ${
-                  interactive ? 'hover:brightness-95 active:scale-95' : ''
+                  interactive ? 'hover:brightness-95 active:scale-[0.96]' : ''
                 }`}
-                style={{ outline: 'none' }}
+                style={{ WebkitTapHighlightColor: 'transparent', outline: 'none' }}
               >
                 {/* Coordinates */}
                 {showCoordinates && c === (flipped ? 7 : 0) && (
                   <span
-                    className={`absolute top-0.5 left-1 text-[10px] sm:text-xs font-bold pointer-events-none ${
+                    className={`absolute top-0.5 left-1 text-[9px] sm:text-xs font-bold pointer-events-none ${
                       isLight ? 'text-amber-800/70' : 'text-amber-100/70'
                     }`}
                   >
@@ -70,7 +70,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                 )}
                 {showCoordinates && r === (flipped ? 0 : 7) && (
                   <span
-                    className={`absolute bottom-0.5 right-1 text-[10px] sm:text-xs font-bold pointer-events-none ${
+                    className={`absolute bottom-0.5 right-1 text-[9px] sm:text-xs font-bold pointer-events-none ${
                       isLight ? 'text-amber-800/70' : 'text-amber-100/70'
                     }`}
                   >
@@ -92,15 +92,15 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({
                   <ChessPiece
                     type={content!.piece!.type}
                     color={content!.piece!.color}
-                    size={46}
-                    className="w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14"
+                    size="82%"
+                    className="max-w-[56px] max-h-[56px]"
                   />
                 )}
 
                 {hasItem && (
                   <ItemPiece
                     item={content!.item!}
-                    size={42}
+                    size="78%"
                   />
                 )}
               </button>

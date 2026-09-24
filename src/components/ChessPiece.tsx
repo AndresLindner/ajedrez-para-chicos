@@ -5,14 +5,14 @@ interface ChessPieceProps {
   type: PieceType;
   color: PieceColor;
   className?: string;
-  size?: number;
+  size?: number | string;
 }
 
 export const ChessPiece: React.FC<ChessPieceProps> = ({
   type,
   color,
   className = '',
-  size = 56,
+  size = '82%',
 }) => {
   const isWhite = color === 'w';
   const fill = isWhite ? '#FFFFFF' : '#2D3748';
@@ -164,10 +164,10 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
 
 interface ItemPieceProps {
   item: SpecialItem;
-  size?: number;
+  size?: number | string;
 }
 
-export const ItemPiece: React.FC<ItemPieceProps> = ({ item, size = 48 }) => {
+export const ItemPiece: React.FC<ItemPieceProps> = ({ item, size = '78%' }) => {
   switch (item) {
     case 'cookie': // Galletita
       return (

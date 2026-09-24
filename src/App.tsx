@@ -20,7 +20,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-100 via-amber-50 to-orange-100 text-slate-800 flex flex-col font-kids">
+    <div className="min-h-[100dvh] bg-gradient-to-b from-amber-100 via-amber-50 to-orange-100 text-slate-800 flex flex-col font-kids">
       {/* Top Navigation Bar */}
       <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b-2 border-amber-200 px-3 py-2.5 sm:px-6 shadow-sm">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-2">
