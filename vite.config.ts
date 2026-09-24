@@ -4,4 +4,8 @@ import react from '@vitejs/plugin-react';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    host: true, // Listen on all local IPs (e.g. 0.0.0.0) so iPad on same Wi-Fi can connect
+    port: 5173,
+  },
 });
