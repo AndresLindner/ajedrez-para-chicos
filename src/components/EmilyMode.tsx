@@ -42,25 +42,20 @@ export const EmilyMode: React.FC = () => {
       sound.playCheck();
       if (lvl === 1) {
         // Solución: C - Comer la pieza que ataca
-        // Rey blanco en e1 (7, 4), Alfil blanco en c3 (5, 2). Dama negra en e4 (4, 4) dando jaque.
         newBoard[7][4] = { piece: { type: 'k', color: 'w' } };
         newBoard[5][2] = { piece: { type: 'b', color: 'w' } };
         newBoard[4][4] = { piece: { type: 'q', color: 'b' } };
         setStoryText('¡Cuidado! La Reina negra le da Jaque a tu Rey. ¿Podés COMER a la atacante con tu Alfil?');
       } else if (lvl === 2) {
         // Solución: P - Proteger / Poner escudo
-        // Rey blanco en g1 (7, 6), peones blancos en f2, g2, h2 pero f2 está en f3. Torre negra en b1 (7, 1) dando jaque horizontal.
-        // Alfil blanco en d3 (5, 3) o Caballo blanco en c3 (5, 2) que puede saltar a d1 (7, 3) para tapar.
         newBoard[7][6] = { piece: { type: 'k', color: 'w' } };
         newBoard[6][6] = { piece: { type: 'p', color: 'w' } };
         newBoard[6][7] = { piece: { type: 'p', color: 'w' } };
-        newBoard[5][2] = { piece: { type: 'b', color: 'w' } }; // Alfil en c3 puede tapar en f1 o e1
-        newBoard[7][0] = { piece: { type: 'r', color: 'b' } }; // Torre negra en a1 atacando fila 7
+        newBoard[5][2] = { piece: { type: 'b', color: 'w' } };
+        newBoard[7][0] = { piece: { type: 'r', color: 'b' } };
         setStoryText('¡Jaque de la Torre negra! No podemos comerla ni correr. ¿Podés PROTEGER poniendo un escudo?');
       } else {
         // Solución: E - Escapar con el Rey
-        // Rey blanco en e4 (4, 4), Torre negra en a4 (4, 0) dando jaque en la fila.
-        // Casillero e5 (3, 4) o e3 (5, 4) están libres y seguros para escapar.
         newBoard[4][4] = { piece: { type: 'k', color: 'w' } };
         newBoard[4][0] = { piece: { type: 'r', color: 'b' } };
         newBoard[2][2] = { piece: { type: 'p', color: 'w' } };
@@ -70,8 +65,6 @@ export const EmilyMode: React.FC = () => {
       // Puzzles de Jaque Mate en 1 jugada
       if (lvl === 1) {
         // Mate del pasillo
-        // Rey negro en g8 (0, 6) atrapado por peones negros en f7, g7, h7 (1, 5; 1, 6; 1, 7).
-        // Torre blanca en d1 (7, 3). Jugada ganadora: Torre a d8 (0, 3) -> ¡Jaque Mate!
         newBoard[0][6] = { piece: { type: 'k', color: 'b' } };
         newBoard[1][5] = { piece: { type: 'p', color: 'b' } };
         newBoard[1][6] = { piece: { type: 'p', color: 'b' } };
@@ -81,25 +74,98 @@ export const EmilyMode: React.FC = () => {
         setStoryText('El Mate del Pasillo: El Rey negro no puede saltar sus peones. ¡Llevá la Torre a la última fila para dar Jaque Mate!');
       } else if (lvl === 2) {
         // El beso de la muerte de la Reina
-        // Rey negro en e8 (0, 4). Alfil blanco en c4 (4, 2) defendiendo el casillero f7 (1, 5).
-        // Reina blanca en h5 (3, 7). Jugada ganadora: Reina a f7 (1, 5) -> ¡Jaque Mate!
         newBoard[0][4] = { piece: { type: 'k', color: 'b' } };
         newBoard[1][3] = { piece: { type: 'p', color: 'b' } };
         newBoard[1][4] = { piece: { type: 'p', color: 'b' } };
-        newBoard[4][2] = { piece: { type: 'b', color: 'w' } }; // Alfil en c4
-        newBoard[3][7] = { piece: { type: 'q', color: 'w' } }; // Reina en h5
+        newBoard[4][2] = { piece: { type: 'b', color: 'w' } };
+        newBoard[3][7] = { piece: { type: 'q', color: 'w' } };
         newBoard[7][4] = { piece: { type: 'k', color: 'w' } };
         setStoryText('El Abrazo de la Reina: Tu Alfil cuida el casillero frente al Rey. ¡Colocá tu Reina ahí para dar Jaque Mate!');
       } else {
-        // Jaque mate con Torre y Dama combinadas
-        // Rey negro en h8 (0, 7). Reina blanca en g6 (2, 6). Torre blanca en a1 (7, 0).
-        // Jugada ganadora: Reina a g7 (1, 6) o Torre a a8 (0, 0) o Reina a h7.
         newBoard[0][7] = { piece: { type: 'k', color: 'b' } };
         newBoard[1][7] = { piece: { type: 'p', color: 'b' } };
         newBoard[2][6] = { piece: { type: 'q', color: 'w' } };
         newBoard[7][0] = { piece: { type: 'r', color: 'w' } };
         newBoard[7][4] = { piece: { type: 'k', color: 'w' } };
         setStoryText('¡Acorralá al Rey rival! Buscá la jugada con tu Reina que deje al Rey en Jaque Mate.');
+      }
+    } else if (game === 'ladder-mate') {
+      // El Mate de la Escalera (Lawnmower / Ladder Mate)
+      if (lvl === 1) {
+        // Nivel 1: El último escalón (Torres en b7 y h2, Rey en e8)
+        newBoard[0][4] = { piece: { type: 'k', color: 'b' } };
+        newBoard[1][1] = { piece: { type: 'r', color: 'w' } }; // Torre en b7 corta fila 7
+        newBoard[6][7] = { piece: { type: 'r', color: 'w' } }; // Torre en h2
+        newBoard[7][4] = { piece: { type: 'k', color: 'w' } };
+        setStoryText('El Mate de la Escalera: Una Torre ya corta la salida. ¡Llevá la otra Torre a la fila 8 para completar la escalera!');
+      } else if (lvl === 2) {
+        // Nivel 2: Dos Torres empujando al Rey
+        newBoard[0][2] = { piece: { type: 'k', color: 'b' } };
+        newBoard[1][6] = { piece: { type: 'r', color: 'w' } }; // Torre en g7
+        newBoard[5][0] = { piece: { type: 'r', color: 'w' } }; // Torre en a3
+        newBoard[7][4] = { piece: { type: 'k', color: 'w' } };
+        setStoryText('¡Remate de la Escalera! Tu Torre de la izquierda debe subir a la última fila para dar Jaque Mate.');
+      } else {
+        // Nivel 3: Escalera de Dama y Torre
+        newBoard[0][6] = { piece: { type: 'k', color: 'b' } };
+        newBoard[1][1] = { piece: { type: 'q', color: 'w' } }; // Reina en b7 cortando fila 7
+        newBoard[6][0] = { piece: { type: 'r', color: 'w' } }; // Torre en a2
+        newBoard[7][4] = { piece: { type: 'k', color: 'w' } };
+        setStoryText('Escalera Real: La Dama corta el paso del Rey en la fila 7. ¡Subí la Torre a la fila 8 para dar Jaque Mate!');
+      }
+    } else if (game === 'forks') {
+      // El Tenedor / Ataque Doble
+      if (lvl === 1) {
+        // Tenedor Real de Caballo (amenaza al Rey y a la Torre a la vez)
+        newBoard[0][4] = { piece: { type: 'k', color: 'b' } }; // Rey en e8
+        newBoard[0][0] = { piece: { type: 'r', color: 'b' } }; // Torre en a8
+        newBoard[3][3] = { piece: { type: 'n', color: 'w' } }; // Caballo en d5
+        newBoard[7][4] = { piece: { type: 'k', color: 'w' } };
+        setStoryText('¡El Tenedor Real! Saltá con tu Caballo al casillero mágico donde amenaces al Rey y a la Torre al mismo tiempo.');
+      } else if (lvl === 2) {
+        // Tenedor de Peón (amenaza a dos piezas a la vez)
+        newBoard[3][2] = { piece: { type: 'n', color: 'b' } }; // Caballo en c5
+        newBoard[3][4] = { piece: { type: 'b', color: 'b' } }; // Alfil en e5
+        newBoard[5][3] = { piece: { type: 'p', color: 'w' } }; // Peón en d3
+        newBoard[0][6] = { piece: { type: 'k', color: 'b' } };
+        newBoard[7][6] = { piece: { type: 'k', color: 'w' } };
+        setStoryText('¡Tenedor de Peón! Avanzá tu peón al centro para amenazar con sus dos espadas diagonales al Caballo y al Alfil a la vez.');
+      } else {
+        // Tenedor / Doble amenaza de Dama
+        newBoard[3][5] = { piece: { type: 'k', color: 'b' } }; // Rey en f5
+        newBoard[3][1] = { piece: { type: 'r', color: 'b' } }; // Torre en b5
+        newBoard[7][3] = { piece: { type: 'q', color: 'w' } }; // Dama en d1
+        newBoard[7][6] = { piece: { type: 'k', color: 'w' } };
+        setStoryText('¡Ataque Doble de Dama! Colocá la Dama en el casillero donde le dé Jaque al Rey y a la vez apunte a la Torre.');
+      }
+    } else if (game === 'defenders') {
+      // Piezas Desprotegidas (¿Quién la cuida?)
+      if (lvl === 1) {
+        // Torre negra en b7 defendida por peón en a6. Caballo negro en f6 desprotegido.
+        newBoard[1][1] = { piece: { type: 'r', color: 'b' } };
+        newBoard[2][0] = { piece: { type: 'p', color: 'b' } }; // cuida a b7
+        newBoard[2][5] = { piece: { type: 'n', color: 'b' } }; // f6: ¡SOLO Y REGALADO!
+        newBoard[4][3] = { piece: { type: 'q', color: 'w' } }; // Dama blanca en d4
+        newBoard[0][6] = { piece: { type: 'k', color: 'b' } };
+        newBoard[7][6] = { piece: { type: 'k', color: 'w' } };
+        setStoryText('¡Cazando piezas sueltas! Una de las piezas negras no tiene amigos cuidándola. ¿Cuál es? ¡Comela con tu Dama!');
+      } else if (lvl === 2) {
+        // Alfil negro en c6 desprotegido. Torre en e8 cuidada por peón en d7.
+        newBoard[2][2] = { piece: { type: 'b', color: 'b' } }; // c6: DESPROTEGIDO
+        newBoard[0][4] = { piece: { type: 'r', color: 'b' } }; // e8
+        newBoard[1][3] = { piece: { type: 'p', color: 'b' } }; // d7 cuida e8
+        newBoard[7][2] = { piece: { type: 'r', color: 'w' } }; // Torre en c1
+        newBoard[0][6] = { piece: { type: 'k', color: 'b' } };
+        newBoard[7][6] = { piece: { type: 'k', color: 'w' } };
+        setStoryText('¡Atenta Emily! Hay un Alfil negro que quedó solito sin nadie que lo defienda. ¡Atrapalo con tu Torre!');
+      } else {
+        // Caballo en e4 desprotegido
+        newBoard[4][4] = { piece: { type: 'n', color: 'b' } }; // e4 solo
+        newBoard[5][3] = { piece: { type: 'p', color: 'w' } }; // Peón en d3
+        newBoard[6][6] = { piece: { type: 'b', color: 'w' } }; // Alfil en g2
+        newBoard[0][6] = { piece: { type: 'k', color: 'b' } };
+        newBoard[7][6] = { piece: { type: 'k', color: 'w' } };
+        setStoryText('¡El Caballo rival avanzó solo y nadie lo cuida! Capturalo de forma segura con tu peón o tu alfil.');
       }
     }
 
@@ -114,7 +180,6 @@ export const EmilyMode: React.FC = () => {
       return;
     }
 
-    // Puzzle modes (Save King and Checkmate in 1)
     const content = board[r][c];
 
     // Selecting a white piece
@@ -143,9 +208,8 @@ export const EmilyMode: React.FC = () => {
           sound.playMove();
         }
 
-        // Verify victory condition for puzzles
+        // Verify victory conditions for each puzzle mode
         if (activeGame === 'save-king') {
-          // If white king is no longer in check, puzzle is solved!
           const stillInCheck = isKingInCheck(newBoard, 'w');
           if (!stillInCheck) {
             setBoard(newBoard);
@@ -154,18 +218,16 @@ export const EmilyMode: React.FC = () => {
             triggerVictoryConfetti();
             setStoryText('¡Genial Emily! ¡Salvaste al Rey con la regla C-P-E!');
           } else {
-            // Still in check
             setBoard(newBoard);
             sound.playCheck();
             setStoryText('¡Cuidado! El Rey sigue en jaque. Intentá otra jugada.');
           }
         } else if (activeGame === 'checkmate-1') {
-          // Check if the move delivered mate
           let isCorrectMate = false;
           if (level === 1 && movingPiece.type === 'r' && r === 0) {
-            isCorrectMate = true; // Torre a octava fila
+            isCorrectMate = true;
           } else if (level === 2 && movingPiece.type === 'q' && r === 1 && c === 5) {
-            isCorrectMate = true; // Reina a f7
+            isCorrectMate = true;
           } else if (level === 3 && movingPiece.type === 'q' && ((r === 1 && c === 6) || (r === 0 && c === 6))) {
             isCorrectMate = true;
           }
@@ -179,6 +241,75 @@ export const EmilyMode: React.FC = () => {
           } else {
             setBoard(newBoard);
             setStoryText('¡Buena jugada, pero el Rey todavía puede defenderse! Probá otra.');
+          }
+        } else if (activeGame === 'ladder-mate') {
+          // El Mate de la Escalera
+          let isLadderMate = false;
+          if (level === 1 && movingPiece.type === 'r' && r === 0) {
+            isLadderMate = true;
+          } else if (level === 2 && movingPiece.type === 'r' && r === 0) {
+            isLadderMate = true;
+          } else if (level === 3 && movingPiece.type === 'r' && r === 0) {
+            isLadderMate = true;
+          }
+
+          if (isLadderMate) {
+            setBoard(newBoard);
+            setIsWon(true);
+            sound.playVictory();
+            triggerVictoryConfetti();
+            setStoryText('¡JAQUE MATE DE LA ESCALERA! ¡Las dos torres hicieron un trabajo perfecto!');
+          } else {
+            setBoard(newBoard);
+            setStoryText('¡Casi! Recordá llevar la torre a la fila 8 para encerrar al Rey.');
+          }
+        } else if (activeGame === 'forks') {
+          // El Tenedor
+          let isCorrectFork = false;
+          if (level === 1 && movingPiece.type === 'n' && r === 1 && c === 2) {
+            // Caballo a c7 (jaque a e8 y amenaza a a8)
+            isCorrectFork = true;
+          } else if (level === 2 && movingPiece.type === 'p' && r === 4 && c === 3) {
+            // Peón a d4 (amenaza a c5 y e5)
+            isCorrectFork = true;
+          } else if (level === 3 && movingPiece.type === 'q' && r === 3 && c === 3) {
+            // Dama a d5 (jaque a f5 y amenaza a b5)
+            isCorrectFork = true;
+          }
+
+          if (isCorrectFork) {
+            setBoard(newBoard);
+            setIsWon(true);
+            sound.playVictory();
+            triggerVictoryConfetti();
+            setStoryText('¡TENEDOR PERFECTO! ¡Amenazaste dos piezas a la vez como una gran maestra!');
+          } else {
+            setBoard(newBoard);
+            setStoryText('Buena jugada, pero buscá el casillero donde ataques las dos piezas rivales al mismo tiempo.');
+          }
+        } else if (activeGame === 'defenders') {
+          // Cazando piezas sueltas
+          let isCorrectCapture = false;
+          if (level === 1 && r === 2 && c === 5) {
+            // Comió el caballo suelto en f6
+            isCorrectCapture = true;
+          } else if (level === 2 && r === 2 && c === 2) {
+            // Comió el alfil suelto en c6
+            isCorrectCapture = true;
+          } else if (level === 3 && r === 4 && c === 4) {
+            // Comió el caballo suelto en e4
+            isCorrectCapture = true;
+          }
+
+          if (isCorrectCapture) {
+            setBoard(newBoard);
+            setIsWon(true);
+            sound.playVictory();
+            triggerVictoryConfetti();
+            setStoryText('¡PIEZA ATRAPADA! Identificaste la pieza que estaba sola y te la comiste gratis.');
+          } else {
+            setBoard(newBoard);
+            setStoryText('¡Cuidado! Fijate bien cuál es la pieza negra que no tiene amigos defendiéndola.');
           }
         }
 
@@ -276,9 +407,9 @@ export const EmilyMode: React.FC = () => {
       const moves = getValidMoves(p.row, p.col, curBoard, { allowItemCollection: false });
       moves.forEach((m) => {
         const isCapture = !!curBoard[m.row][m.col]?.piece;
-        let score = m.row * 2; // Further down is better
+        let score = m.row * 2;
         if (isCapture) score += 10;
-        if (m.row === 7) score += 50; // Coronation
+        if (m.row === 7) score += 50;
         possibleMoves.push({ from: p, to: m, isCapture, score });
       });
     });
@@ -320,33 +451,63 @@ export const EmilyMode: React.FC = () => {
       <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
         <button
           onClick={() => { setActiveGame('pawn-wars'); setLevel(1); }}
-          className={`flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-bold text-sm sm:text-base transition-all shadow-md ${
+          className={`flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition-all shadow-md ${
             activeGame === 'pawn-wars'
               ? 'bg-rose-500 text-white scale-105 ring-4 ring-rose-300'
               : 'bg-white text-slate-700 hover:bg-rose-100'
           }`}
         >
-          ⚔️ Gran Guerra de 8 Peones
+          ⚔️ Guerra de 8 Peones
         </button>
         <button
           onClick={() => { setActiveGame('save-king'); setLevel(1); }}
-          className={`flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-bold text-sm sm:text-base transition-all shadow-md ${
+          className={`flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition-all shadow-md ${
             activeGame === 'save-king'
               ? 'bg-amber-600 text-white scale-105 ring-4 ring-amber-300'
               : 'bg-white text-slate-700 hover:bg-amber-100'
           }`}
         >
-          🛡️ Salvá al Rey (Regla C-P-E)
+          🛡️ Salvá al Rey (C-P-E)
         </button>
         <button
           onClick={() => { setActiveGame('checkmate-1'); setLevel(1); }}
-          className={`flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-bold text-sm sm:text-base transition-all shadow-md ${
+          className={`flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition-all shadow-md ${
             activeGame === 'checkmate-1'
               ? 'bg-purple-600 text-white scale-105 ring-4 ring-purple-300'
               : 'bg-white text-slate-700 hover:bg-purple-100'
           }`}
         >
-          👑 Jaque Mate en 1 Jugada
+          👑 Jaque Mate en 1
+        </button>
+        <button
+          onClick={() => { setActiveGame('ladder-mate'); setLevel(1); }}
+          className={`flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition-all shadow-md ${
+            activeGame === 'ladder-mate'
+              ? 'bg-blue-600 text-white scale-105 ring-4 ring-blue-300'
+              : 'bg-white text-slate-700 hover:bg-blue-100'
+          }`}
+        >
+          🪜 Mate de la Escalera
+        </button>
+        <button
+          onClick={() => { setActiveGame('forks'); setLevel(1); }}
+          className={`flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition-all shadow-md ${
+            activeGame === 'forks'
+              ? 'bg-emerald-600 text-white scale-105 ring-4 ring-emerald-300'
+              : 'bg-white text-slate-700 hover:bg-emerald-100'
+          }`}
+        >
+          🍴 El Tenedor Doble
+        </button>
+        <button
+          onClick={() => { setActiveGame('defenders'); setLevel(1); }}
+          className={`flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition-all shadow-md ${
+            activeGame === 'defenders'
+              ? 'bg-teal-600 text-white scale-105 ring-4 ring-teal-300'
+              : 'bg-white text-slate-700 hover:bg-teal-100'
+          }`}
+        >
+          🎯 ¿Quién la Cuida?
         </button>
       </div>
 
@@ -357,6 +518,9 @@ export const EmilyMode: React.FC = () => {
             {activeGame === 'pawn-wars' && '⚔️'}
             {activeGame === 'save-king' && '🛡️'}
             {activeGame === 'checkmate-1' && '👑'}
+            {activeGame === 'ladder-mate' && '🪜'}
+            {activeGame === 'forks' && '🍴'}
+            {activeGame === 'defenders' && '🎯'}
           </div>
           <div>
             <p className="text-base sm:text-lg font-extrabold text-slate-800">{storyText}</p>
