@@ -8,6 +8,10 @@ interface ChessPieceProps {
   size?: number | string;
 }
 
+/**
+ * Professional Staunton Chess Pieces (Tournament Standard)
+ * Clean, authentic, non-cartoon shapes as used in international tournament play.
+ */
 export const ChessPiece: React.FC<ChessPieceProps> = ({
   type,
   color,
@@ -17,413 +21,374 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
   const isWhite = color === 'w';
 
   // Palette:
-  // White piece: clean warm ivory/white body, subtle slate-gray shadow lines
-  // Black piece: deep slate body, crisp light contour lines
-  const fill = isWhite ? '#FFFFFF' : '#1E293B';
-  const stroke = isWhite ? '#334155' : '#0F172A';
-  const innerShadow = isWhite ? '#E2E8F0' : '#0F172A';
-  const highlight = isWhite ? '#F8FAFC' : '#475569';
-  const detail = isWhite ? '#64748B' : '#94A3B8';
-  const eyePupil = isWhite ? '#1E293B' : '#FFFFFF';
-  const eyeLight = '#FFFFFF';
+  // White: Pure white body, deep graphite border (#1e293b)
+  // Black: Professional deep charcoal (#1e293b) body, crisp white internal accent lines
+  const whiteFill = '#FFFFFF';
+  const blackFill = '#1E293B';
+  const strokeColor = '#111827';
+  const whiteLine = '#FFFFFF';
 
   switch (type) {
-    case 'p': // Peón
-      return (
+    case 'p': // Peón (Pawn)
+      return isWhite ? (
         <svg
           width={size}
           height={size}
-          viewBox="0 0 100 100"
-          className={`filter drop-shadow-md transition-transform duration-150 ${className}`}
+          viewBox="0 0 45 45"
+          className={`filter drop-shadow-sm transition-transform duration-100 ${className}`}
         >
-          {/* Base bottom plinth */}
           <path
-            d="M 22 88 C 22 84 26 83 50 83 C 74 83 78 84 78 88 C 78 90 74 91 50 91 C 26 91 22 90 22 88 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
+            d="m 22.5,9 c -2.21,0 -4,1.79 -4,4 0,0.89 0.29,1.71 0.78,2.38 C 17.33,16.5 16,18.59 16,21 c 0,2.03 0.94,3.84 2.41,5.03 C 15.41,27.09 11,31.58 11,39.5 l 23,0 c 0,-7.92 -4.41,-12.41 -7.41,-13.47 C 28.06,24.84 29,23.03 29,21 29,18.59 27.67,16.5 25.72,15.38 26.21,14.71 26.5,13.89 26.5,13 c 0,-2.21 -1.79,-4 -4,-4 z"
+            fill={whiteFill}
+            stroke={strokeColor}
+            strokeWidth="1.6"
+            strokeLinecap="round"
             strokeLinejoin="round"
           />
-          {/* Tier 2 Base */}
-          <path
-            d="M 28 83 C 28 78 34 76 50 76 C 66 76 72 78 72 83 Z"
-            fill={innerShadow}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Body waist */}
-          <path
-            d="M 32 76 C 36 60 40 50 42 43 L 58 43 C 60 50 64 60 68 76 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Collar ring */}
-          <path
-            d="M 36 43 C 36 39 42 38 50 38 C 58 38 64 39 64 43 C 64 45 58 46 50 46 C 42 46 36 45 36 43 Z"
-            fill={innerShadow}
-            stroke={stroke}
-            strokeWidth="3.5"
-          />
-          {/* Head sphere */}
-          <circle cx="50" cy="26" r="16" fill={fill} stroke={stroke} strokeWidth="3.5" />
-          {/* Head highlight shine */}
-          <ellipse cx="45" cy="20" rx="6" ry="3.5" transform="rotate(-30 45 20)" fill={highlight} />
-          {/* Friendly face */}
-          <circle cx="45" cy="25" r="2.2" fill={eyePupil} />
-          <circle cx="55" cy="25" r="2.2" fill={eyePupil} />
-          <path d="M 46 31 Q 50 35 54 31" stroke={detail} strokeWidth="2.5" fill="none" strokeLinecap="round" />
         </svg>
-      );
-
-    case 'r': // Torre
-      return (
+      ) : (
         <svg
           width={size}
           height={size}
-          viewBox="0 0 100 100"
-          className={`filter drop-shadow-md transition-transform duration-150 ${className}`}
+          viewBox="0 0 45 45"
+          className={`filter drop-shadow-sm transition-transform duration-100 ${className}`}
         >
-          {/* Base bottom plinth */}
           <path
-            d="M 20 88 C 20 84 25 83 50 83 C 75 83 80 84 80 88 C 80 91 75 92 50 92 C 25 92 20 91 20 88 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Tier 2 plinth */}
-          <path
-            d="M 26 83 C 26 77 32 75 50 75 C 68 75 74 77 74 83 Z"
-            fill={innerShadow}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Tower body */}
-          <path
-            d="M 29 75 L 34 38 L 66 38 L 71 75 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Tower top cornice */}
-          <path
-            d="M 26 38 L 26 32 L 74 32 L 74 38 Z"
-            fill={innerShadow}
-            stroke={stroke}
-            strokeWidth="3.5"
-          />
-          {/* Battlements (3 distinct crenels) */}
-          <path
-            d="M 24 32 L 24 16 L 36 16 L 36 24 L 44 24 L 44 16 L 56 16 L 56 24 L 64 24 L 64 16 L 76 16 L 76 32 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Castle arched doorway */}
-          <path
-            d="M 43 75 L 43 56 C 43 50 57 50 57 56 L 57 75 Z"
-            fill={isWhite ? '#CBD5E1' : '#0F172A'}
-            stroke={stroke}
-            strokeWidth="3"
-          />
-          {/* Castle windows (eyes) */}
-          <rect x="38" y="42" width="5" height="7" rx="2.5" fill={isWhite ? '#334155' : '#FFFFFF'} />
-          <rect x="57" y="42" width="5" height="7" rx="2.5" fill={isWhite ? '#334155' : '#FFFFFF'} />
-        </svg>
-      );
-
-    case 'n': // Caballo (Knight) - Refined, proud, beautiful shape
-      return (
-        <svg
-          width={size}
-          height={size}
-          viewBox="0 0 100 100"
-          className={`filter drop-shadow-md transition-transform duration-150 ${className}`}
-        >
-          {/* Base bottom plinth */}
-          <path
-            d="M 20 88 C 20 84 25 83 50 83 C 75 83 80 84 80 88 C 80 91 75 92 50 92 C 25 92 20 91 20 88 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Tier 2 Pedestal */}
-          <path
-            d="M 26 83 C 26 78 32 76 50 76 C 68 76 74 78 74 83 Z"
-            fill={innerShadow}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-
-          {/* Horse Main Silhouette */}
-          <path
-            d="M 30 76 
-               C 34 68 38 60 44 54 
-               C 42 49 39 46 32 44 
-               C 27 42 23 39 21 34 
-               C 20 29 23 25 28 24 
-               C 33 24 38 27 44 26 
-               C 46 22 47 17 48 13 
-               C 49 10 52 10 53 14 
-               L 54 18 
-               C 56 12 59 12 60 15 
-               L 60 21 
-               C 66 23 74 30 76 40 
-               C 77 47 76 55 75 62 
-               C 74 69 72 73 70 76 
-               Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-
-          {/* Flowing Mane Strands on the back */}
-          <path
-            d="M 58 22 C 64 26 68 33 68 40"
-            stroke={stroke}
-            strokeWidth="3.5"
+            d="m 22.5,9 c -2.21,0 -4,1.79 -4,4 0,0.89 0.29,1.71 0.78,2.38 C 17.33,16.5 16,18.59 16,21 c 0,2.03 0.94,3.84 2.41,5.03 C 15.41,27.09 11,31.58 11,39.5 l 23,0 c 0,-7.92 -4.41,-12.41 -7.41,-13.47 C 28.06,24.84 29,23.03 29,21 29,18.59 27.67,16.5 25.72,15.38 26.21,14.71 26.5,13.89 26.5,13 c 0,-2.21 -1.79,-4 -4,-4 z"
+            fill={blackFill}
+            stroke={strokeColor}
+            strokeWidth="1.6"
             strokeLinecap="round"
-            fill="none"
-          />
-          <path
-            d="M 64 34 C 71 40 73 48 72 55"
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinecap="round"
-            fill="none"
-          />
-          <path
-            d="M 69 49 C 74 56 74 64 71 70"
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinecap="round"
-            fill="none"
-          />
-
-          {/* Horse Muzzle, Nostril & Mouth */}
-          <path
-            d="M 23 32 Q 25 35 28 34"
-            stroke={stroke}
-            strokeWidth="3"
-            strokeLinecap="round"
-            fill="none"
-          />
-          {/* Nostril dot */}
-          <circle cx="25" cy="30" r="1.8" fill={stroke} />
-
-          {/* Gentle, expressive Horse Eye */}
-          <ellipse cx="41" cy="27" rx="4" ry="5.5" fill={eyePupil} />
-          <circle cx="39.5" cy="25" r="1.8" fill={eyeLight} />
-
-          {/* Cheek & Jaw muscle curve */}
-          <path
-            d="M 37 36 C 44 38 46 44 42 49"
-            stroke={detail}
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            fill="none"
-          />
-
-          {/* Chest contour */}
-          <path
-            d="M 46 56 C 40 64 36 71 34 76"
-            stroke={detail}
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            fill="none"
+            strokeLinejoin="round"
           />
         </svg>
       );
 
-    case 'b': // Alfil
-      return (
+    case 'r': // Torre (Rook)
+      return isWhite ? (
         <svg
           width={size}
           height={size}
-          viewBox="0 0 100 100"
-          className={`filter drop-shadow-md transition-transform duration-150 ${className}`}
+          viewBox="0 0 45 45"
+          className={`filter drop-shadow-sm transition-transform duration-100 ${className}`}
         >
-          {/* Base bottom plinth */}
-          <path
-            d="M 22 88 C 22 84 26 83 50 83 C 74 83 78 84 78 88 C 78 91 74 92 50 92 C 26 92 22 91 22 88 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Tier 2 Pedestal */}
-          <path
-            d="M 28 83 C 28 78 34 76 50 76 C 66 76 72 78 72 83 Z"
-            fill={innerShadow}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Stem / Waist */}
-          <path
-            d="M 34 76 C 37 64 42 56 42 48 L 58 48 C 58 56 63 64 66 76 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Collar ring */}
-          <path
-            d="M 36 48 C 36 44 42 43 50 43 C 58 43 64 44 64 48 C 64 51 58 52 50 52 C 42 52 36 51 36 48 Z"
-            fill={innerShadow}
-            stroke={stroke}
-            strokeWidth="3.5"
-          />
-          {/* Mitre (Head) */}
-          <path
-            d="M 33 43 C 30 35 34 22 50 14 C 66 22 70 35 67 43 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Top pommel sphere */}
-          <circle cx="50" cy="12" r="5" fill="#F59E0B" stroke={stroke} strokeWidth="3" />
-          {/* Classic diagonal mitre cut/slit */}
-          <path
-            d="M 44 23 L 61 38"
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinecap="round"
-          />
-          {/* Friendly eyes */}
-          <circle cx="43" cy="33" r="2.2" fill={eyePupil} />
-          <circle cx="57" cy="33" r="2.2" fill={eyePupil} />
-          <path d="M 46 39 Q 50 43 54 39" stroke={detail} strokeWidth="2.2" fill="none" strokeLinecap="round" />
-        </svg>
-      );
-
-    case 'q': // Reina / Dama
-      return (
-        <svg
-          width={size}
-          height={size}
-          viewBox="0 0 100 100"
-          className={`filter drop-shadow-md transition-transform duration-150 ${className}`}
-        >
-          {/* Base bottom plinth */}
-          <path
-            d="M 20 88 C 20 84 25 83 50 83 C 75 83 80 84 80 88 C 80 91 75 92 50 92 C 25 92 20 91 20 88 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Tier 2 Pedestal */}
-          <path
-            d="M 26 83 C 26 78 32 76 50 76 C 68 76 74 78 74 83 Z"
-            fill={innerShadow}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Body waist */}
-          <path
-            d="M 30 76 C 34 60 41 52 42 42 L 58 42 C 59 52 66 60 70 76 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Collar ring */}
-          <path
-            d="M 34 42 C 34 38 41 37 50 37 C 59 37 66 38 66 42 C 66 44 59 45 50 45 C 41 45 34 44 34 42 Z"
-            fill={innerShadow}
-            stroke={stroke}
-            strokeWidth="3.5"
-          />
-          {/* Radiant 5-point Crown */}
-          <path
-            d="M 23 37 L 21 19 L 36 29 L 50 14 L 64 29 L 79 19 L 77 37 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Crown Jewels (5 pearls) */}
-          <circle cx="21" cy="18" r="4" fill="#EF4444" stroke={stroke} strokeWidth="2.5" />
-          <circle cx="36" cy="28" r="3.5" fill="#3B82F6" stroke={stroke} strokeWidth="2.5" />
-          <circle cx="50" cy="13" r="4.5" fill="#F59E0B" stroke={stroke} strokeWidth="2.5" />
-          <circle cx="64" cy="28" r="3.5" fill="#10B981" stroke={stroke} strokeWidth="2.5" />
-          <circle cx="79" cy="18" r="4" fill="#8B5CF6" stroke={stroke} strokeWidth="2.5" />
-          {/* Friendly eyes and smile */}
-          <circle cx="43" cy="52" r="2.5" fill={eyePupil} />
-          <circle cx="57" cy="52" r="2.5" fill={eyePupil} />
-          <path d="M 45 60 Q 50 65 55 60" stroke={detail} strokeWidth="2.5" fill="none" strokeLinecap="round" />
-        </svg>
-      );
-
-    case 'k': // Rey
-      return (
-        <svg
-          width={size}
-          height={size}
-          viewBox="0 0 100 100"
-          className={`filter drop-shadow-md transition-transform duration-150 ${className}`}
-        >
-          {/* Base bottom plinth */}
-          <path
-            d="M 20 88 C 20 84 25 83 50 83 C 75 83 80 84 80 88 C 80 91 75 92 50 92 C 25 92 20 91 20 88 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Tier 2 Pedestal */}
-          <path
-            d="M 26 83 C 26 78 32 76 50 76 C 68 76 74 78 74 83 Z"
-            fill={innerShadow}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Body waist */}
-          <path
-            d="M 29 76 C 33 60 40 52 42 40 L 58 40 C 60 52 67 60 71 76 Z"
-            fill={fill}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Royal Crown arches */}
-          <path
-            d="M 28 40 C 26 25 40 22 50 25 C 60 22 74 25 72 40 Z"
-            fill={innerShadow}
-            stroke={stroke}
-            strokeWidth="3.5"
-            strokeLinejoin="round"
-          />
-          {/* Royal Cross Finial on top */}
-          <path
-            d="M 50 8 L 50 22 M 43 14 L 57 14"
-            stroke="#F59E0B"
-            strokeWidth="5"
-            strokeLinecap="round"
-          />
-          {/* Friendly king eyes & grand moustache */}
-          <circle cx="43" cy="50" r="2.5" fill={eyePupil} />
-          <circle cx="57" cy="50" r="2.5" fill={eyePupil} />
-          <path
-            d="M 37 60 Q 45 56 50 61 Q 55 56 63 60"
-            stroke={detail}
-            strokeWidth="3"
+          <g
             fill="none"
+            fillRule="evenodd"
+            stroke={strokeColor}
+            strokeWidth="1.6"
             strokeLinecap="round"
-          />
+            strokeLinejoin="round"
+          >
+            <path d="m 9,39 h 27 v -3 h -27 z" fill={whiteFill} />
+            <path d="m 12,36 v -4 h 21 v 4 z" fill={whiteFill} />
+            <path d="m 11,14 h 23 v -5 h -4 v 2 h -5 v -2 h -5 v 2 h -4 v -2 h -5 z" fill={whiteFill} />
+            <path d="m 12,14 1.5,18 h 16 l 1.5,-18 z" fill={whiteFill} />
+            <path d="m 14,29.5 h 17" />
+            <path d="m 14,16.5 h 17" />
+            <path d="m 11,14 h 23" />
+          </g>
+        </svg>
+      ) : (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 45 45"
+          className={`filter drop-shadow-sm transition-transform duration-100 ${className}`}
+        >
+          <g
+            fill="none"
+            fillRule="evenodd"
+            stroke={strokeColor}
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="m 9,39 h 27 v -3 h -27 z" fill={blackFill} />
+            <path d="m 12,36 v -4 h 21 v 4 z" fill={blackFill} />
+            <path d="m 11,14 h 23 v -5 h -4 v 2 h -5 v -2 h -5 v 2 h -4 v -2 h -5 z" fill={blackFill} />
+            <path d="m 12,14 1.5,18 h 16 l 1.5,-18 z" fill={blackFill} />
+            <path d="m 14,29.5 h 17" stroke={whiteLine} strokeWidth="1.3" />
+            <path d="m 14,16.5 h 17" stroke={whiteLine} strokeWidth="1.3" />
+            <path d="m 11,14 h 23" stroke={whiteLine} strokeWidth="1.3" />
+          </g>
+        </svg>
+      );
+
+    case 'n': // Caballo (Knight) - Real Professional Staunton Shape
+      return isWhite ? (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 45 45"
+          className={`filter drop-shadow-sm transition-transform duration-100 ${className}`}
+        >
+          <g
+            fill="none"
+            fillRule="evenodd"
+            stroke={strokeColor}
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path
+              d="m 22,10 c 10.5,1 16.5,8 16,29 l -23,0 c 0,-9 10,-6.5 8,-21"
+              fill={whiteFill}
+            />
+            <path
+              d="m 24,18 c 0.38,2.91 -5.55,7.37 -8,9 -3,2 -2.82,4.34 -5,4 -1.042,-0.94 1.41,-3.04 0,-3 -1,0 0.19,1.23 -1,2 -1,0 -4.003,1 -4,-4 0,-2 6,-12 6,-12 0,0 1.89,-1.9 2,-3.5 -0.73,-0.994 -0.5,-2 -0.5,-3 1,-1 3,2.5 3,2.5 l 2,0 c 0,0 0.78,-1.992 2.5,-3 1,0 1,3 1,3"
+              fill={whiteFill}
+            />
+            <circle cx="9.5" cy="25.5" r="0.8" fill={strokeColor} />
+            <path
+              d="m 15,15.5 c 0,1.38 -0.45,2.5 -1,2.5 -0.55,0 -1,-1.12 -1,-2.5 0,-1.38 0.45,-2.5 1,-2.5 0.55,0 1,1.12 1,2.5 z"
+              transform="matrix(0.866,0.5,-0.5,0.866,9.693,-5.173)"
+              fill={strokeColor}
+            />
+          </g>
+        </svg>
+      ) : (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 45 45"
+          className={`filter drop-shadow-sm transition-transform duration-100 ${className}`}
+        >
+          <g
+            fill="none"
+            fillRule="evenodd"
+            stroke={strokeColor}
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path
+              d="m 22,10 c 10.5,1 16.5,8 16,29 l -23,0 c 0,-9 10,-6.5 8,-21"
+              fill={blackFill}
+            />
+            <path
+              d="m 24,18 c 0.38,2.91 -5.55,7.37 -8,9 -3,2 -2.82,4.34 -5,4 -1.042,-0.94 1.41,-3.04 0,-3 -1,0 0.19,1.23 -1,2 -1,0 -4.003,1 -4,-4 0,-2 6,-12 6,-12 0,0 1.89,-1.9 2,-3.5 -0.73,-0.994 -0.5,-2 -0.5,-3 1,-1 3,2.5 3,2.5 l 2,0 c 0,0 0.78,-1.992 2.5,-3 1,0 1,3 1,3"
+              fill={blackFill}
+            />
+            <circle cx="9.5" cy="25.5" r="0.8" fill={whiteLine} />
+            <path
+              d="m 15,15.5 c 0,1.38 -0.45,2.5 -1,2.5 -0.55,0 -1,-1.12 -1,-2.5 0,-1.38 0.45,-2.5 1,-2.5 0.55,0 1,1.12 1,2.5 z"
+              transform="matrix(0.866,0.5,-0.5,0.866,9.693,-5.173)"
+              fill={whiteLine}
+            />
+            {/* Real Staunton mane cuts */}
+            <path d="m 24.55,10.4 c -0.45,1.45 -1.2,2.3 -2.8,2.6" stroke={whiteLine} strokeWidth="1.2" />
+            <path d="m 26.2,14.7 c -0.3,1.3 -0.8,2.1 -2.1,2.4" stroke={whiteLine} strokeWidth="1.2" />
+            <path d="m 27.7,19.2 c -0.3,1.3 -0.8,2.1 -2.1,2.4" stroke={whiteLine} strokeWidth="1.2" />
+            <path d="m 29.2,23.7 c -0.3,1.3 -0.8,2.1 -2.1,2.4" stroke={whiteLine} strokeWidth="1.2" />
+          </g>
+        </svg>
+      );
+
+    case 'b': // Alfil (Bishop)
+      return isWhite ? (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 45 45"
+          className={`filter drop-shadow-sm transition-transform duration-100 ${className}`}
+        >
+          <g
+            fill="none"
+            fillRule="evenodd"
+            stroke={strokeColor}
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path
+              d="m 9,36 c 3.39,-0.97 10.11,0.43 13.5,-2 3.39,2.43 10.11,1.03 13.5,2 0,0 1.65,0.54 3,2 -0.68,0.97 -1.65,0.99 -3,0.5 -3.39,-0.97 -10.11,0.46 -13.5,-1 -3.39,1.46 -10.11,0.03 -13.5,1 -1.354,0.49 -2.323,0.47 -3,-0.5 1.354,-1.94 3,-2 3,-2 z"
+              fill={whiteFill}
+              strokeLinecap="butt"
+            />
+            <path
+              d="m 15,32 c 2.5,2.5 12.5,2.5 15,0 0.5,-1.5 0,-2 0,-2 0,-2.5 -2.5,-4 -2.5,-4 5.5,-1.5 6,-11.5 -5,-15.5 -11,4 -10.5,14 -5,15.5 0,0 -2.5,1.5 -2.5,4 0,0 -0.5,0.5 0,2 z"
+              fill={whiteFill}
+            />
+            <circle cx="22.5" cy="8" r="1.5" fill={whiteFill} />
+            <path d="m 17.5,26 h 10" />
+            <path d="m 15,30 h 15" />
+            <path d="m 22.5,15.5 v 5" />
+            <path d="m 20,18 h 5" />
+          </g>
+        </svg>
+      ) : (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 45 45"
+          className={`filter drop-shadow-sm transition-transform duration-100 ${className}`}
+        >
+          <g
+            fill="none"
+            fillRule="evenodd"
+            stroke={strokeColor}
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path
+              d="m 9,36 c 3.39,-0.97 10.11,0.43 13.5,-2 3.39,2.43 10.11,1.03 13.5,2 0,0 1.65,0.54 3,2 -0.68,0.97 -1.65,0.99 -3,0.5 -3.39,-0.97 -10.11,0.46 -13.5,-1 -3.39,1.46 -10.11,0.03 -13.5,1 -1.354,0.49 -2.323,0.47 -3,-0.5 1.354,-1.94 3,-2 3,-2 z"
+              fill={blackFill}
+              strokeLinecap="butt"
+            />
+            <path
+              d="m 15,32 c 2.5,2.5 12.5,2.5 15,0 0.5,-1.5 0,-2 0,-2 0,-2.5 -2.5,-4 -2.5,-4 5.5,-1.5 6,-11.5 -5,-15.5 -11,4 -10.5,14 -5,15.5 0,0 -2.5,1.5 -2.5,4 0,0 -0.5,0.5 0,2 z"
+              fill={blackFill}
+            />
+            <circle cx="22.5" cy="8" r="1.5" fill={blackFill} />
+            <path d="m 17.5,26 h 10" stroke={whiteLine} strokeWidth="1.3" />
+            <path d="m 15,30 h 15" stroke={whiteLine} strokeWidth="1.3" />
+            <path d="m 22.5,15.5 v 5" stroke={whiteLine} strokeWidth="1.3" />
+            <path d="m 20,18 h 5" stroke={whiteLine} strokeWidth="1.3" />
+          </g>
+        </svg>
+      );
+
+    case 'q': // Dama / Reina (Queen)
+      return isWhite ? (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 45 45"
+          className={`filter drop-shadow-sm transition-transform duration-100 ${className}`}
+        >
+          <g
+            fill="none"
+            fillRule="evenodd"
+            stroke={strokeColor}
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="m 8,12 a 2,2 0 1 1 -4,0 2,2 0 1 1 4,0 z" fill={whiteFill} />
+            <path d="m 24.5,9 a 2,2 0 1 1 -4,0 2,2 0 1 1 4,0 z" fill={whiteFill} />
+            <path d="m 41,12 a 2,2 0 1 1 -4,0 2,2 0 1 1 4,0 z" fill={whiteFill} />
+            <path d="m 16,14.5 a 2,2 0 1 1 -4,0 2,2 0 1 1 4,0 z" fill={whiteFill} />
+            <path d="m 33,14.5 a 2,2 0 1 1 -4,0 2,2 0 1 1 4,0 z" fill={whiteFill} />
+            <path
+              d="m 9,26 c 8.5,-1.5 21,-1.5 27,0 l 2,-12 -7,11 -4,-16 -4.5,16 -4.5,-16 -4,16 -7,-11 2,12 z"
+              fill={whiteFill}
+            />
+            <path
+              d="m 9,26 c 0,2 1.5,2 2.5,4 1,1.5 1,1 0.5,3.5 -1.5,1 -1.5,2.5 -1.5,2.5 -1.5,1.5 0.5,2.5 0.5,2.5 6.5,1 16.5,1 23,0 0,0 1.5,-1 0.5,-2.5 0,0 0,-1.5 -1.5,-2.5 -0.5,-2.5 -0.5,-2 0.5,-3.5 1,-2 2.5,-2 2.5,-4 -8.5,-1.5 -18.5,-1.5 -27,0 z"
+              fill={whiteFill}
+            />
+            <path
+              d="m 11,38.5 a 3.5,1.5 0 1 1 -7,0 3.5,1.5 0 1 1 7,0 z"
+              fill={whiteFill}
+              transform="translate(10,-0.5)"
+            />
+            <path d="m 12,32 c 2.5,1 18.5,1 21,0" />
+            <path d="m 11,35 c 3.5,1 19.5,1 23,0" />
+            <path d="m 9,38 c 4,1 23,1 27,0" />
+          </g>
+        </svg>
+      ) : (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 45 45"
+          className={`filter drop-shadow-sm transition-transform duration-100 ${className}`}
+        >
+          <g
+            fill="none"
+            fillRule="evenodd"
+            stroke={strokeColor}
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="m 8,12 a 2,2 0 1 1 -4,0 2,2 0 1 1 4,0 z" fill={blackFill} />
+            <path d="m 24.5,9 a 2,2 0 1 1 -4,0 2,2 0 1 1 4,0 z" fill={blackFill} />
+            <path d="m 41,12 a 2,2 0 1 1 -4,0 2,2 0 1 1 4,0 z" fill={blackFill} />
+            <path d="m 16,14.5 a 2,2 0 1 1 -4,0 2,2 0 1 1 4,0 z" fill={blackFill} />
+            <path d="m 33,14.5 a 2,2 0 1 1 -4,0 2,2 0 1 1 4,0 z" fill={blackFill} />
+            <path
+              d="m 9,26 c 8.5,-1.5 21,-1.5 27,0 l 2,-12 -7,11 -4,-16 -4.5,16 -4.5,-16 -4,16 -7,-11 2,12 z"
+              fill={blackFill}
+            />
+            <path
+              d="m 9,26 c 0,2 1.5,2 2.5,4 1,1.5 1,1 0.5,3.5 -1.5,1 -1.5,2.5 -1.5,2.5 -1.5,1.5 0.5,2.5 0.5,2.5 6.5,1 16.5,1 23,0 0,0 1.5,-1 0.5,-2.5 0,0 0,-1.5 -1.5,-2.5 -0.5,-2.5 -0.5,-2 0.5,-3.5 1,-2 2.5,-2 2.5,-4 -8.5,-1.5 -18.5,-1.5 -27,0 z"
+              fill={blackFill}
+            />
+            <path
+              d="m 11,38.5 a 3.5,1.5 0 1 1 -7,0 3.5,1.5 0 1 1 7,0 z"
+              fill={blackFill}
+              transform="translate(10,-0.5)"
+            />
+            <path d="m 12,32 c 2.5,1 18.5,1 21,0" stroke={whiteLine} strokeWidth="1.3" />
+            <path d="m 11,35 c 3.5,1 19.5,1 23,0" stroke={whiteLine} strokeWidth="1.3" />
+            <path d="m 9,38 c 4,1 23,1 27,0" stroke={whiteLine} strokeWidth="1.3" />
+          </g>
+        </svg>
+      );
+
+    case 'k': // Rey (King)
+      return isWhite ? (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 45 45"
+          className={`filter drop-shadow-sm transition-transform duration-100 ${className}`}
+        >
+          <g
+            fill="none"
+            fillRule="evenodd"
+            stroke={strokeColor}
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="m 22.5,11.63 v 6" />
+            <path d="m 20,13.5 h 5" />
+            <path
+              d="m 22.5,25 c 0,-4.5 -4.5,-7 -4.5,-7 3,0 4.5,-2 4.5,-4 0,2 1.5,4 4.5,4 0,0 -4.5,2.5 -4.5,7 z"
+              fill={whiteFill}
+            />
+            <path
+              d="m 11.5,37 c 5.5,3.5 15.5,3.5 21,0 v -7 c 0,0 9,-4.5 6,-10.5 -4,-6.5 -13.5,-3.5 -16,4 v 3.5 0 -3.5 c -2.5,-7.5 -12,-10.5 -16,-4 -3,6 6,10.5 6,10.5 v 7 z"
+              fill={whiteFill}
+            />
+            <path d="m 11.5,30 c 5.5,-2 15.5,-2 21,0" />
+            <path d="m 11.5,33.5 c 5.5,-2 15.5,-2 21,0" />
+            <path d="m 11.5,37 c 5.5,-2 15.5,-2 21,0" />
+          </g>
+        </svg>
+      ) : (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 45 45"
+          className={`filter drop-shadow-sm transition-transform duration-100 ${className}`}
+        >
+          <g
+            fill="none"
+            fillRule="evenodd"
+            stroke={strokeColor}
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="m 22.5,11.63 v 6" stroke={whiteLine} strokeWidth="1.5" />
+            <path d="m 20,13.5 h 5" stroke={whiteLine} strokeWidth="1.5" />
+            <path
+              d="m 22.5,25 c 0,-4.5 -4.5,-7 -4.5,-7 3,0 4.5,-2 4.5,-4 0,2 1.5,4 4.5,4 0,0 -4.5,2.5 -4.5,7 z"
+              fill={blackFill}
+            />
+            <path
+              d="m 11.5,37 c 5.5,3.5 15.5,3.5 21,0 v -7 c 0,0 9,-4.5 6,-10.5 -4,-6.5 -13.5,-3.5 -16,4 v 3.5 0 -3.5 c -2.5,-7.5 -12,-10.5 -16,-4 -3,6 6,10.5 6,10.5 v 7 z"
+              fill={blackFill}
+            />
+            <path d="m 11.5,30 c 5.5,-2 15.5,-2 21,0" stroke={whiteLine} strokeWidth="1.3" />
+            <path d="m 11.5,33.5 c 5.5,-2 15.5,-2 21,0" stroke={whiteLine} strokeWidth="1.3" />
+            <path d="m 11.5,37 c 5.5,-2 15.5,-2 21,0" stroke={whiteLine} strokeWidth="1.3" />
+          </g>
         </svg>
       );
 
@@ -462,9 +427,6 @@ export const ItemPiece: React.FC<ItemPieceProps> = ({ item, size = '78%' }) => {
             stroke="#CA8A04"
             strokeWidth="4"
           />
-          <circle cx="44" cy="46" r="2.5" fill="#713F12" />
-          <circle cx="56" cy="46" r="2.5" fill="#713F12" />
-          <path d="M46 54 Q50 58 54 54" stroke="#713F12" strokeWidth="2.5" fill="none" strokeLinecap="round" />
         </svg>
       );
 
