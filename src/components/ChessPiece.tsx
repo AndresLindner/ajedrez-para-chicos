@@ -12,13 +12,20 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
   type,
   color,
   className = '',
-  size = '82%',
+  size = '84%',
 }) => {
   const isWhite = color === 'w';
-  const fill = isWhite ? '#FFFFFF' : '#2D3748';
-  const stroke = isWhite ? '#4A5568' : '#1A202C';
-  const accent = isWhite ? '#CBD5E0' : '#4A5568';
-  const detail = isWhite ? '#E2E8F0' : '#1A202C';
+
+  // Palette:
+  // White piece: clean warm ivory/white body, subtle slate-gray shadow lines
+  // Black piece: deep slate body, crisp light contour lines
+  const fill = isWhite ? '#FFFFFF' : '#1E293B';
+  const stroke = isWhite ? '#334155' : '#0F172A';
+  const innerShadow = isWhite ? '#E2E8F0' : '#0F172A';
+  const highlight = isWhite ? '#F8FAFC' : '#475569';
+  const detail = isWhite ? '#64748B' : '#94A3B8';
+  const eyePupil = isWhite ? '#1E293B' : '#FFFFFF';
+  const eyeLight = '#FFFFFF';
 
   switch (type) {
     case 'p': // Peón
@@ -29,17 +36,45 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
           viewBox="0 0 100 100"
           className={`filter drop-shadow-md transition-transform duration-150 ${className}`}
         >
-          {/* Base */}
-          <ellipse cx="50" cy="85" rx="30" ry="10" fill={fill} stroke={stroke} strokeWidth="4" />
-          <path d="M26 85 C26 72 38 65 42 50 C44 42 43 38 38 35 C38 35 62 35 62 35 C57 38 56 42 58 50 C62 65 74 72 74 85 Z" fill={fill} stroke={stroke} strokeWidth="4" />
-          {/* Head */}
-          <circle cx="50" cy="28" r="18" fill={fill} stroke={stroke} strokeWidth="4" />
-          {/* Eyes & Smile */}
-          <circle cx="44" cy="26" r="2.5" fill={isWhite ? '#2D3748' : '#FFFFFF'} />
-          <circle cx="56" cy="26" r="2.5" fill={isWhite ? '#2D3748' : '#FFFFFF'} />
-          <path d="M45 32 Q50 36 55 32" stroke={isWhite ? '#2D3748' : '#FFFFFF'} strokeWidth="2.5" fill="none" strokeLinecap="round" />
-          {/* Little Shield Accent on belly */}
-          <path d="M44 55 Q50 62 56 55 Q50 50 44 55" fill={isWhite ? '#60A5FA' : '#F59E0B'} />
+          {/* Base bottom plinth */}
+          <path
+            d="M 22 88 C 22 84 26 83 50 83 C 74 83 78 84 78 88 C 78 90 74 91 50 91 C 26 91 22 90 22 88 Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Tier 2 Base */}
+          <path
+            d="M 28 83 C 28 78 34 76 50 76 C 66 76 72 78 72 83 Z"
+            fill={innerShadow}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Body waist */}
+          <path
+            d="M 32 76 C 36 60 40 50 42 43 L 58 43 C 60 50 64 60 68 76 Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Collar ring */}
+          <path
+            d="M 36 43 C 36 39 42 38 50 38 C 58 38 64 39 64 43 C 64 45 58 46 50 46 C 42 46 36 45 36 43 Z"
+            fill={innerShadow}
+            stroke={stroke}
+            strokeWidth="3.5"
+          />
+          {/* Head sphere */}
+          <circle cx="50" cy="26" r="16" fill={fill} stroke={stroke} strokeWidth="3.5" />
+          {/* Head highlight shine */}
+          <ellipse cx="45" cy="20" rx="6" ry="3.5" transform="rotate(-30 45 20)" fill={highlight} />
+          {/* Friendly face */}
+          <circle cx="45" cy="25" r="2.2" fill={eyePupil} />
+          <circle cx="55" cy="25" r="2.2" fill={eyePupil} />
+          <path d="M 46 31 Q 50 35 54 31" stroke={detail} strokeWidth="2.5" fill="none" strokeLinecap="round" />
         </svg>
       );
 
@@ -51,20 +86,59 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
           viewBox="0 0 100 100"
           className={`filter drop-shadow-md transition-transform duration-150 ${className}`}
         >
-          {/* Base */}
-          <ellipse cx="50" cy="86" rx="32" ry="9" fill={fill} stroke={stroke} strokeWidth="4" />
-          <rect x="25" y="44" width="50" height="40" rx="4" fill={fill} stroke={stroke} strokeWidth="4" />
-          {/* Castle Battlements */}
-          <path d="M20 44 L20 22 L32 22 L32 30 L44 30 L44 22 L56 22 L56 30 L68 30 L68 22 L80 22 L80 44 Z" fill={fill} stroke={stroke} strokeWidth="4" />
-          {/* Cute Castle Door and Window Eyes */}
-          <rect x="36" y="34" width="7" height="7" rx="2" fill={isWhite ? '#2D3748' : '#FFFFFF'} />
-          <rect x="57" y="34" width="7" height="7" rx="2" fill={isWhite ? '#2D3748' : '#FFFFFF'} />
-          {/* Smiling door */}
-          <path d="M40 84 L40 64 Q50 58 60 64 L60 84 Z" fill={accent} stroke={stroke} strokeWidth="3" />
+          {/* Base bottom plinth */}
+          <path
+            d="M 20 88 C 20 84 25 83 50 83 C 75 83 80 84 80 88 C 80 91 75 92 50 92 C 25 92 20 91 20 88 Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Tier 2 plinth */}
+          <path
+            d="M 26 83 C 26 77 32 75 50 75 C 68 75 74 77 74 83 Z"
+            fill={innerShadow}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Tower body */}
+          <path
+            d="M 29 75 L 34 38 L 66 38 L 71 75 Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Tower top cornice */}
+          <path
+            d="M 26 38 L 26 32 L 74 32 L 74 38 Z"
+            fill={innerShadow}
+            stroke={stroke}
+            strokeWidth="3.5"
+          />
+          {/* Battlements (3 distinct crenels) */}
+          <path
+            d="M 24 32 L 24 16 L 36 16 L 36 24 L 44 24 L 44 16 L 56 16 L 56 24 L 64 24 L 64 16 L 76 16 L 76 32 Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Castle arched doorway */}
+          <path
+            d="M 43 75 L 43 56 C 43 50 57 50 57 56 L 57 75 Z"
+            fill={isWhite ? '#CBD5E1' : '#0F172A'}
+            stroke={stroke}
+            strokeWidth="3"
+          />
+          {/* Castle windows (eyes) */}
+          <rect x="38" y="42" width="5" height="7" rx="2.5" fill={isWhite ? '#334155' : '#FFFFFF'} />
+          <rect x="57" y="42" width="5" height="7" rx="2.5" fill={isWhite ? '#334155' : '#FFFFFF'} />
         </svg>
       );
 
-    case 'n': // Caballo
+    case 'n': // Caballo (Knight) - Refined, proud, beautiful shape
       return (
         <svg
           width={size}
@@ -72,23 +146,101 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
           viewBox="0 0 100 100"
           className={`filter drop-shadow-md transition-transform duration-150 ${className}`}
         >
-          <ellipse cx="50" cy="86" rx="30" ry="9" fill={fill} stroke={stroke} strokeWidth="4" />
-          {/* Horse body & head */}
+          {/* Base bottom plinth */}
           <path
-            d="M28 86 C28 72 32 62 38 52 C35 48 30 45 28 38 C26 31 30 25 38 22 C42 16 48 14 55 15 C58 12 65 14 68 18 C78 22 82 32 80 42 C78 48 72 52 68 56 C68 68 72 76 72 86 Z"
+            d="M 20 88 C 20 84 25 83 50 83 C 75 83 80 84 80 88 C 80 91 75 92 50 92 C 25 92 20 91 20 88 Z"
             fill={fill}
             stroke={stroke}
-            strokeWidth="4"
+            strokeWidth="3.5"
+            strokeLinejoin="round"
           />
-          {/* Mane */}
-          <path d="M68 20 C72 26 72 36 68 44" stroke={accent} strokeWidth="5" strokeLinecap="round" />
-          {/* Eye */}
-          <circle cx="44" cy="30" r="3.5" fill={isWhite ? '#2D3748' : '#FFFFFF'} />
-          <circle cx="43" cy="29" r="1.2" fill="#FFFFFF" />
-          {/* Muzzle & nostril */}
-          <circle cx="32" cy="36" r="2" fill={stroke} />
-          {/* Smile */}
-          <path d="M34 40 Q40 43 45 39" stroke={isWhite ? '#2D3748' : '#FFFFFF'} strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          {/* Tier 2 Pedestal */}
+          <path
+            d="M 26 83 C 26 78 32 76 50 76 C 68 76 74 78 74 83 Z"
+            fill={innerShadow}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+
+          {/* Horse Main Silhouette */}
+          <path
+            d="M 30 76 
+               C 34 68 38 60 44 54 
+               C 42 49 39 46 32 44 
+               C 27 42 23 39 21 34 
+               C 20 29 23 25 28 24 
+               C 33 24 38 27 44 26 
+               C 46 22 47 17 48 13 
+               C 49 10 52 10 53 14 
+               L 54 18 
+               C 56 12 59 12 60 15 
+               L 60 21 
+               C 66 23 74 30 76 40 
+               C 77 47 76 55 75 62 
+               C 74 69 72 73 70 76 
+               Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+
+          {/* Flowing Mane Strands on the back */}
+          <path
+            d="M 58 22 C 64 26 68 33 68 40"
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <path
+            d="M 64 34 C 71 40 73 48 72 55"
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            fill="none"
+          />
+          <path
+            d="M 69 49 C 74 56 74 64 71 70"
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            fill="none"
+          />
+
+          {/* Horse Muzzle, Nostril & Mouth */}
+          <path
+            d="M 23 32 Q 25 35 28 34"
+            stroke={stroke}
+            strokeWidth="3"
+            strokeLinecap="round"
+            fill="none"
+          />
+          {/* Nostril dot */}
+          <circle cx="25" cy="30" r="1.8" fill={stroke} />
+
+          {/* Gentle, expressive Horse Eye */}
+          <ellipse cx="41" cy="27" rx="4" ry="5.5" fill={eyePupil} />
+          <circle cx="39.5" cy="25" r="1.8" fill={eyeLight} />
+
+          {/* Cheek & Jaw muscle curve */}
+          <path
+            d="M 37 36 C 44 38 46 44 42 49"
+            stroke={detail}
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            fill="none"
+          />
+
+          {/* Chest contour */}
+          <path
+            d="M 46 56 C 40 64 36 71 34 76"
+            stroke={detail}
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            fill="none"
+          />
         </svg>
       );
 
@@ -100,17 +252,58 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
           viewBox="0 0 100 100"
           className={`filter drop-shadow-md transition-transform duration-150 ${className}`}
         >
-          <ellipse cx="50" cy="86" rx="30" ry="9" fill={fill} stroke={stroke} strokeWidth="4" />
-          <path d="M26 86 C26 74 36 68 40 54 C42 46 40 40 36 36 C36 36 64 36 64 36 C60 40 58 46 60 54 C64 68 74 74 74 86 Z" fill={fill} stroke={stroke} strokeWidth="4" />
-          {/* Mitre head with slice */}
-          <ellipse cx="50" cy="34" rx="20" ry="24" fill={fill} stroke={stroke} strokeWidth="4" />
-          <circle cx="50" cy="10" r="6" fill={fill} stroke={stroke} strokeWidth="3" />
-          {/* Diagonal cut slit */}
-          <line x1="42" y1="24" x2="62" y2="40" stroke={stroke} strokeWidth="3.5" strokeLinecap="round" />
+          {/* Base bottom plinth */}
+          <path
+            d="M 22 88 C 22 84 26 83 50 83 C 74 83 78 84 78 88 C 78 91 74 92 50 92 C 26 92 22 91 22 88 Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Tier 2 Pedestal */}
+          <path
+            d="M 28 83 C 28 78 34 76 50 76 C 66 76 72 78 72 83 Z"
+            fill={innerShadow}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Stem / Waist */}
+          <path
+            d="M 34 76 C 37 64 42 56 42 48 L 58 48 C 58 56 63 64 66 76 Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Collar ring */}
+          <path
+            d="M 36 48 C 36 44 42 43 50 43 C 58 43 64 44 64 48 C 64 51 58 52 50 52 C 42 52 36 51 36 48 Z"
+            fill={innerShadow}
+            stroke={stroke}
+            strokeWidth="3.5"
+          />
+          {/* Mitre (Head) */}
+          <path
+            d="M 33 43 C 30 35 34 22 50 14 C 66 22 70 35 67 43 Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Top pommel sphere */}
+          <circle cx="50" cy="12" r="5" fill="#F59E0B" stroke={stroke} strokeWidth="3" />
+          {/* Classic diagonal mitre cut/slit */}
+          <path
+            d="M 44 23 L 61 38"
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinecap="round"
+          />
           {/* Friendly eyes */}
-          <circle cx="43" cy="38" r="2.5" fill={isWhite ? '#2D3748' : '#FFFFFF'} />
-          <circle cx="57" cy="38" r="2.5" fill={isWhite ? '#2D3748' : '#FFFFFF'} />
-          <path d="M46 44 Q50 48 54 44" stroke={isWhite ? '#2D3748' : '#FFFFFF'} strokeWidth="2" fill="none" strokeLinecap="round" />
+          <circle cx="43" cy="33" r="2.2" fill={eyePupil} />
+          <circle cx="57" cy="33" r="2.2" fill={eyePupil} />
+          <path d="M 46 39 Q 50 43 54 39" stroke={detail} strokeWidth="2.2" fill="none" strokeLinecap="round" />
         </svg>
       );
 
@@ -122,16 +315,55 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
           viewBox="0 0 100 100"
           className={`filter drop-shadow-md transition-transform duration-150 ${className}`}
         >
-          <ellipse cx="50" cy="86" rx="34" ry="9" fill={fill} stroke={stroke} strokeWidth="4" />
-          <path d="M24 86 C26 70 34 62 38 48 C36 42 32 38 22 44 L28 26 L40 38 L50 20 L60 38 L72 26 L78 44 C68 38 64 42 62 48 C66 62 74 70 76 86 Z" fill={fill} stroke={stroke} strokeWidth="4" />
-          {/* Jewels on crown points */}
-          <circle cx="28" cy="24" r="4.5" fill="#EF4444" />
-          <circle cx="50" cy="18" r="5" fill="#3B82F6" />
-          <circle cx="72" cy="24" r="4.5" fill="#10B981" />
+          {/* Base bottom plinth */}
+          <path
+            d="M 20 88 C 20 84 25 83 50 83 C 75 83 80 84 80 88 C 80 91 75 92 50 92 C 25 92 20 91 20 88 Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Tier 2 Pedestal */}
+          <path
+            d="M 26 83 C 26 78 32 76 50 76 C 68 76 74 78 74 83 Z"
+            fill={innerShadow}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Body waist */}
+          <path
+            d="M 30 76 C 34 60 41 52 42 42 L 58 42 C 59 52 66 60 70 76 Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Collar ring */}
+          <path
+            d="M 34 42 C 34 38 41 37 50 37 C 59 37 66 38 66 42 C 66 44 59 45 50 45 C 41 45 34 44 34 42 Z"
+            fill={innerShadow}
+            stroke={stroke}
+            strokeWidth="3.5"
+          />
+          {/* Radiant 5-point Crown */}
+          <path
+            d="M 23 37 L 21 19 L 36 29 L 50 14 L 64 29 L 79 19 L 77 37 Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Crown Jewels (5 pearls) */}
+          <circle cx="21" cy="18" r="4" fill="#EF4444" stroke={stroke} strokeWidth="2.5" />
+          <circle cx="36" cy="28" r="3.5" fill="#3B82F6" stroke={stroke} strokeWidth="2.5" />
+          <circle cx="50" cy="13" r="4.5" fill="#F59E0B" stroke={stroke} strokeWidth="2.5" />
+          <circle cx="64" cy="28" r="3.5" fill="#10B981" stroke={stroke} strokeWidth="2.5" />
+          <circle cx="79" cy="18" r="4" fill="#8B5CF6" stroke={stroke} strokeWidth="2.5" />
           {/* Friendly eyes and smile */}
-          <circle cx="43" cy="56" r="3" fill={isWhite ? '#2D3748' : '#FFFFFF'} />
-          <circle cx="57" cy="56" r="3" fill={isWhite ? '#2D3748' : '#FFFFFF'} />
-          <path d="M45 64 Q50 69 55 64" stroke={isWhite ? '#2D3748' : '#FFFFFF'} strokeWidth="2.5" fill="none" strokeLinecap="round" />
+          <circle cx="43" cy="52" r="2.5" fill={eyePupil} />
+          <circle cx="57" cy="52" r="2.5" fill={eyePupil} />
+          <path d="M 45 60 Q 50 65 55 60" stroke={detail} strokeWidth="2.5" fill="none" strokeLinecap="round" />
         </svg>
       );
 
@@ -143,17 +375,55 @@ export const ChessPiece: React.FC<ChessPieceProps> = ({
           viewBox="0 0 100 100"
           className={`filter drop-shadow-md transition-transform duration-150 ${className}`}
         >
-          <ellipse cx="50" cy="86" rx="34" ry="9" fill={fill} stroke={stroke} strokeWidth="4" />
-          <path d="M26 86 C28 72 36 64 38 52 C38 44 34 40 30 38 L70 38 C66 40 62 44 62 52 C64 64 72 72 74 86 Z" fill={fill} stroke={stroke} strokeWidth="4" />
-          {/* Royal Crown */}
-          <path d="M28 38 C28 26 40 22 50 25 C60 22 72 26 72 38 Z" fill={accent} stroke={stroke} strokeWidth="4" />
-          {/* Royal Cross */}
-          <path d="M50 10 L50 24 M43 17 L57 17" stroke="#F59E0B" strokeWidth="5" strokeLinecap="round" />
+          {/* Base bottom plinth */}
+          <path
+            d="M 20 88 C 20 84 25 83 50 83 C 75 83 80 84 80 88 C 80 91 75 92 50 92 C 25 92 20 91 20 88 Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Tier 2 Pedestal */}
+          <path
+            d="M 26 83 C 26 78 32 76 50 76 C 68 76 74 78 74 83 Z"
+            fill={innerShadow}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Body waist */}
+          <path
+            d="M 29 76 C 33 60 40 52 42 40 L 58 40 C 60 52 67 60 71 76 Z"
+            fill={fill}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Royal Crown arches */}
+          <path
+            d="M 28 40 C 26 25 40 22 50 25 C 60 22 74 25 72 40 Z"
+            fill={innerShadow}
+            stroke={stroke}
+            strokeWidth="3.5"
+            strokeLinejoin="round"
+          />
+          {/* Royal Cross Finial on top */}
+          <path
+            d="M 50 8 L 50 22 M 43 14 L 57 14"
+            stroke="#F59E0B"
+            strokeWidth="5"
+            strokeLinecap="round"
+          />
           {/* Friendly king eyes & grand moustache */}
-          <circle cx="43" cy="54" r="2.5" fill={isWhite ? '#2D3748' : '#FFFFFF'} />
-          <circle cx="57" cy="54" r="2.5" fill={isWhite ? '#2D3748' : '#FFFFFF'} />
-          {/* Moustache */}
-          <path d="M38 65 Q45 61 50 66 Q55 61 62 65" stroke={detail} strokeWidth="3" fill="none" strokeLinecap="round" />
+          <circle cx="43" cy="50" r="2.5" fill={eyePupil} />
+          <circle cx="57" cy="50" r="2.5" fill={eyePupil} />
+          <path
+            d="M 37 60 Q 45 56 50 61 Q 55 56 63 60"
+            stroke={detail}
+            strokeWidth="3"
+            fill="none"
+            strokeLinecap="round"
+          />
         </svg>
       );
 
